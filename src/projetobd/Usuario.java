@@ -2,7 +2,7 @@
 package projetobd;
 
 
-public class usuario {
+public class Usuario {
     private String nome ;
     private int id;
     private int idade;
