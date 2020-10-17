@@ -19,7 +19,7 @@ public class UsuarioDAO {
     public List<Usuario> listarTodos() {
         List<Usuario> resultado = new ArrayList<Usuario>();
         try {
-            Class.forName("org.portgresql.Driver");
+            Class.forName("org.postgresql.Driver");
             Connection c = DriverManager.getConnection(URL, USUARIO, SENHA);
             PreparedStatement ps = c.prepareStatement("SELECT id, nome, idade, senha, email, saldo From Usuario");
             ResultSet rs = ps.executeQuery();
@@ -50,7 +50,7 @@ public class UsuarioDAO {
     public Usuario listar(int id) {
         Usuario u = null;
         try {
-            Class.forName("org.portgresql.Driver");
+            Class.forName("org.postgresql.Driver");
             Connection c = DriverManager.getConnection(URL, USUARIO, SENHA);
             PreparedStatement ps = c.prepareStatement("SELECT id, nome, idade, senha, email, saldo From Usuario WHERE id =?");
             ps.setInt(1, id);
@@ -78,18 +78,17 @@ public class UsuarioDAO {
 
     }
 
-    public boolean inserir(int id, String nome, int idade, String senha, String email, float saldo) {
+    public boolean inserir(String nome, int idade, String senha, String email, float saldo) {
         boolean sucesso = false;
         try {
-            Class.forName("org.portgresql.Driver");
+            Class.forName("org.postgresql.Driver");
             Connection c = DriverManager.getConnection(URL, USUARIO, SENHA);
-            PreparedStatement ps = c.prepareStatement("INSERT INTO Usuario (id,nome,idade,senha,email,saldo) VALUES (?,?,?,?,?,?)");
-            ps.setInt(1, id);
-            ps.setString(2, nome);
-            ps.setInt(3, idade);
-            ps.setString(4, senha);
-            ps.setString(5, email);
-            ps.setFloat(6, saldo);
+            PreparedStatement ps = c.prepareStatement("INSERT INTO Usuario (nome,idade,senha,email,saldo) VALUES (?,?,?,?,?)");
+            ps.setString(1, nome);
+            ps.setInt(2, idade);
+            ps.setString(3, senha);
+            ps.setString(4, email);
+            ps.setFloat(5, saldo);
             int r = ps.executeUpdate();
             sucesso = (r == 1);
 
@@ -107,7 +106,7 @@ public class UsuarioDAO {
     public boolean atualizar(int id, String nome, int idade, String senha, String email, float saldo) {
         boolean sucesso = false;
         try {
-            Class.forName("org.portgresql.Driver");
+            Class.forName("org.postgresql.Driver");
             Connection c = DriverManager.getConnection(URL, USUARIO, SENHA);
             PreparedStatement ps = c.prepareStatement("UPDATE Usuario SETnome =?,idade=?,senha=?,email=?,saldo=? WHERE id = ?");
 
@@ -134,7 +133,7 @@ public class UsuarioDAO {
     public boolean remover(int id) {
         boolean sucesso = false;
         try {
-            Class.forName("org.portgresql.Driver");
+            Class.forName("org.postgresql.Driver");
             Connection c = DriverManager.getConnection(URL, USUARIO, SENHA);
             PreparedStatement ps = c.prepareStatement("DELETE FROM Usuario WHERE id = ?");
 

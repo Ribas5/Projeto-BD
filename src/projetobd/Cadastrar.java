@@ -103,40 +103,78 @@ public class Cadastrar {
     public void MCUInserirUmUsuario(Scanner entrada) {
         System.out.println("Inserir um Usuario");
         System.out.println("-------------------");
-        System.out.println("Digite o ID do Usuario:");
-        int Id = entrada.nextInt();
-        entrada.nextLine();
         System.out.println("Digite o nome do Usuario:");
         String nome = entrada.nextLine();
-        System.out.println("Digite o idade do Usuario:");
+        System.out.println("Digite a idade do Usuario:");
         int idade = entrada.nextInt();
         entrada.nextLine();
         System.out.println("Digite o email do Usuario:");
         String email = entrada.nextLine();
-        System.out.println("Digite o senha do Usuario:");
+        System.out.println("Digite a senha do Usuario:");
         String senha = entrada.nextLine();
         System.out.println("Digite o saldo do Usuario:");
         float saldo = entrada.nextFloat();
         entrada.nextLine();
         UsuarioDAO usuarioDAO = new UsuarioDAO();
-        Usuario usuario = usuarioDAO.listar(Id);
-        if (usuario != null) {
-            System.out.println("** ID: " + usuario.getId() + " - nome: " + usuario.getNome() + " - idade: " + usuario.getIdade() + " - email: " + usuario.getEmail() + " - senha: " + " - saldo: " + usuario.getSaldo() + " **");
+        boolean sucesso = usuarioDAO.inserir( nome, idade, senha, email, saldo);
+        if (sucesso) {
+            System.out.println("* USUARIO CDASTRADO *");
         } else {
-            System.out.println("Usuario não encontrado");
+            System.out.println("***USUARIO NÃO CADASTRADO***");
         }
         menuCadastroUsuario(entrada);
     }
-}
 
-public void MCUAtulizarUmUsuario(Scanner scanner) {
+    public void MCUAtulizarUmUsuario(Scanner entrada) {
+        System.out.println("Atualizar um Usuario");
+        System.out.println("-------------------");
+        System.out.println("Digite o ID do Usuario:");
+        int Id = entrada.nextInt();
+        entrada.nextLine();
+        System.out.println("Digite o novo nome do Usuario:");
+        String nome = entrada.nextLine();
+        System.out.println("Digite a nova idade do Usuario:");
+        int idade = entrada.nextInt();
+        entrada.nextLine();
+        System.out.println("Digite o novo email do Usuario:");
+        String email = entrada.nextLine();
+        System.out.println("Digite o senha do Usuario:");
+        String senha = entrada.nextLine();
+        System.out.println("Digite o novo saldo do Usuario:");
+        float saldo = entrada.nextFloat();
+        entrada.nextLine();
+        UsuarioDAO usuarioDAO = new UsuarioDAO();
+        boolean sucesso = usuarioDAO.atualizar(Id, nome, idade, senha, email, saldo);
+        if (sucesso) {
+            System.out.println("* USUARIO Atualizado *");
+        } else {
+            System.out.println("***USUARIO NÃO Atualizado***");
+        }
+        menuCadastroUsuario(entrada);
     }
 
-    public void MCURemoverUmUsuario(Scanner scanner) {
+    public void MCURemoverUmUsuario(Scanner entrada) {
+        System.out.println("Remova um Usuario");
+        System.out.println("-------------------");
+        System.out.println("Digite o ID do Usuario:");
+        int Id = entrada.nextInt();
+        entrada.nextLine();
+        UsuarioDAO usuarioDAO = new UsuarioDAO();
+        boolean sucesso = usuarioDAO.remover(Id);
+        if (sucesso) {
+            System.out.println("* USUARIO REMOVIDO *");
+        } else {
+            System.out.println("***USUARIO NÃO REMOVIDO***");
+        }
+        menuCadastroUsuario(entrada);
     }
 
     public static void main(String[] args) {
-
+        Scanner entrada = new Scanner (System.in);
+        Cadastrar cadastrar = new Cadastrar();
+        cadastrar.menuPrincipal(entrada);
+        entrada.close();
+        
     }
 
 }
