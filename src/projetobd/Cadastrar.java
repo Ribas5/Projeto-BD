@@ -12,6 +12,7 @@ public class Cadastrar {
         System.out.println("1\t Menu do usuario");
         System.out.println("2\t Menu dos filmes");
         System.out.println("3\t Menu dos gêneros");
+        System.out.println("4\t menu dos estudios");
         System.out.println("0\t Sair");
         System.out.println("-------------------");
         System.out.println("escolha uma opção, 0 ate 2");
@@ -31,12 +32,16 @@ public class Cadastrar {
             case 3:
                 menuGenero(entrada);
                 break;
+            case 4:
+                menuEstudio(entrada);
+                break;
             default:
                 menuPrincipal(entrada);
                 break;
         }
 
     }
+///////////////// menu usuario /////////////////////
 
     public void menuUsuario(Scanner entrada) {
         System.out.println("Cadastro de Usuarios");
@@ -177,6 +182,7 @@ public class Cadastrar {
         menuUsuario(entrada);
     }
 
+    //////////// menu filme////////////////
     public void menuFilme(Scanner entrada) {
         System.out.println("Cadastro de Usuarios");
         System.out.println("-------------------");
@@ -293,7 +299,7 @@ public class Cadastrar {
         int idestudio = entrada.nextInt();
         entrada.nextLine();
         FilmeDAO filmeDAO = new FilmeDAO();
-        boolean sucesso = filmeDAO.atualizar(Id,nome, duracao, preco, fetaria, idestudio);
+        boolean sucesso = filmeDAO.atualizar(Id, nome, duracao, preco, fetaria, idestudio);
         if (sucesso) {
             System.out.println("* FILME CDASTRADO *");
         } else {
@@ -315,9 +321,10 @@ public class Cadastrar {
         } else {
             System.out.println("***FILME NÃO REMOVIDO***");
         }
-        menuFilme (entrada);
+        menuFilme(entrada);
     }
-    
+///////// menu do genero ////////////////////
+
     public void menuGenero(Scanner entrada) {
         System.out.println("Cadastro de Gêneros");
         System.out.println("-------------------");
@@ -412,7 +419,7 @@ public class Cadastrar {
         System.out.println("Digite a nova descrição do Gênero:");
         String descricao = entrada.nextLine();
         GeneroDAO generoDAO = new GeneroDAO();
-        boolean sucesso = generoDAO.atualizar(Id,descricao);
+        boolean sucesso = generoDAO.atualizar(Id, descricao);
         if (sucesso) {
             System.out.println("* GÊNERO CADASTRADO *");
         } else {
@@ -434,7 +441,127 @@ public class Cadastrar {
         } else {
             System.out.println("***GÊNERO NÃO REMOVIDO***");
         }
-        menuGenero (entrada);
+        menuGenero(entrada);
+    }
+
+////////////menu do estudio//////
+    public void menuEstudio(Scanner entrada) {
+        System.out.println("Cadastro de Usuarios");
+        System.out.println("-------------------");
+        System.out.println("Opção\t Descrição");
+        System.out.println("1\t Listar todos os estudio");
+        System.out.println("2\t Listar um unico estudio");
+        System.out.println("3\t Inserir um novo estudio");
+        System.out.println("4\t Atualizar dados de um estudio");
+        System.out.println("5\t Remover um estudio");
+        System.out.println("0\t Voltar ao menu");
+        System.out.println("-------------------");
+        System.out.println("escolha uma opção, 0 a 5");
+
+        int opcao = entrada.nextInt();
+        entrada.nextLine();
+
+        switch (opcao) {
+            case 0:
+                menuPrincipal(entrada);
+                break;
+            case 1:
+                ListarTodosEstudios(entrada);
+                break;
+            case 2:
+                ListarUmEstudio(entrada);
+                break;
+            case 3:
+                InserirUmEstudio(entrada);
+                break;
+            case 4:
+                AtulizarUmEstudio(entrada);
+                break;
+            case 5:
+                RemoverUmEstudio(entrada);
+                break;
+            default:
+                menuPrincipal(entrada);
+                break;
+        }
+
+    }
+
+    public void ListarTodosEstudios(Scanner entrada) {
+        System.out.println("listar todos os estudios");
+        System.out.println("-------------------");
+        EstudioDAO estudioDAO = new EstudioDAO();
+        List<Estudio> estudio = estudioDAO.listarTodos();
+        for (Estudio estudios : estudio) {
+            System.out.println("** ID: " + estudios.getId() + " - nome: " + estudios.getNome() + " **");
+        }
+        System.out.println("* " + estudio.size() + "estudios encontrados *");
+        menuEstudio(entrada);
+    }
+
+    public void ListarUmEstudio(Scanner entrada) {
+        System.out.println("Listar um Estudio");
+        System.out.println("-------------------");
+        System.out.println("Digite o ID do Estudio:");
+        int Id = entrada.nextInt();
+        entrada.nextLine();
+        EstudioDAO estudioDAO = new EstudioDAO();
+        Estudio estudios = estudioDAO.listar(Id);
+        if (estudios != null) {
+            System.out.println("** ID: " + estudios.getId() + " - nome: " + estudios.getNome() + " **");
+        } else {
+            System.out.println("Estudio não encontrado, verifique se o ID esta correto");
+        }
+        menuEstudio(entrada);
+    }
+
+    public void InserirUmEstudio(Scanner entrada) {
+        System.out.println("Inserir um Estudio");
+        System.out.println("----------------");
+        System.out.println("Digite o nome do Estudio: ");
+        String nome = entrada.nextLine();
+        EstudioDAO estudioDAO = new EstudioDAO();
+        boolean sucesso = estudioDAO.inserir(nome);
+        if (sucesso) {
+            System.out.println("* ESTUDIO CDASTRADO *");
+        } else {
+            System.out.println("***ESTUDIO NÃO CADASTRADO***");
+        }
+        menuEstudio(entrada);
+    }
+
+    public void AtulizarUmEstudio(Scanner entrada) {
+        System.out.println("Atualizar um Estudio");
+        System.out.println("-------------------");
+        System.out.println("Digite o ID do Estudio:");
+        int Id = entrada.nextInt();
+        entrada.nextLine();
+        System.out.println("Digite o novo nome do Estudio:");
+        String descricao = entrada.nextLine();
+        GeneroDAO generoDAO = new GeneroDAO();
+        boolean sucesso = generoDAO.atualizar(Id, descricao);
+        if (sucesso) {
+            System.out.println("* ESTUDIO CADASTRADO *");
+        } else {
+            System.out.println("***ESTUDIO NÃO CADASTRADO***");
+        }
+        menuGenero(entrada);
+    }
+
+    public void RemoverUmEstudio(Scanner entrada) {
+        System.out.println("Remova um Estudio");
+        System.out.println("-------------------");
+        System.out.println("Digite o ID do Estudio:");
+        int Id = entrada.nextInt();
+        entrada.nextLine();
+        EstudioDAO estudioDAO = new EstudioDAO();
+        boolean sucesso = estudioDAO.remover(Id);
+        if (sucesso) {
+            System.out.println("* ESTUDIO REMOVIDO *");
+        } else {
+            System.out.println("***ESTUDIO NÃO REMOVIDO***");
+        }
+        menuGenero(entrada);
     }
 
     public static void main(String[] args) {
