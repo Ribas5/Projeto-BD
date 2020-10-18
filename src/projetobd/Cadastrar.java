@@ -233,9 +233,18 @@ public class Cadastrar {
         System.out.println("Cadastro de Filme");
         System.out.println("-------------------");
         FilmeDAO filmeDAO = new FilmeDAO();
+        GeneroFilmeDAO generoFilmeDAO = new GeneroFilmeDAO();
         List<Filme> filme = filmeDAO.listarTodos();
         for (Filme filmes : filme) {
-            System.out.println("** ID: " + filmes.getId() + " - nome: " + filmes.getNome() + " - duração: " + filmes.getDuracao() + " - preço: " + filmes.getPreco() + " - Faixa etaria: " + filmes.getFaixaetaria() + " - ID do estudio: " + filmes.getIdestudio() + " **");
+            System.out.print("** ID: " + filmes.getId() + " - nome: " + filmes.getNome() + " - duração: " + filmes.getDuracao());
+            List<Genero> generos = generoFilmeDAO.listarGenerosFilme(filmes.getId());
+            if (generos != null) {
+                System.out.print(" - gêneros: ");
+                for (Genero genero : generos) {
+                    System.out.print(genero.getDescricao() + ", ");
+                }
+            }
+            System.out.print(" - preço: " + filmes.getPreco() + " - Faixa etaria: " + filmes.getFaixaetaria() + " - ID do estudio: " + filmes.getIdestudio() + " **\n");
         }
         System.out.println("* " + filme.size() + "filmes encontrados *");
         menuFilme(entrada);
