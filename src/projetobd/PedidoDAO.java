@@ -21,7 +21,7 @@ public class PedidoDAO {
         try {
             Class.forName("org.postgresql.Driver");
             Connection c = DriverManager.getConnection(URL, USUARIO, SENHA);
-            PreparedStatement ps = c.prepareStatement("SELECT id, data, expiracao, id_usuario From filme");
+            PreparedStatement ps = c.prepareStatement("SELECT id, to_char(data, 'DD/MM/YYYY') as data, to_char(expiracao, 'DD/MM/YYYY') as expiracao, id_usuario from pedido");
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Pedido p = new Pedido();
@@ -50,7 +50,7 @@ public class PedidoDAO {
         try {
             Class.forName("org.postgresql.Driver");
             Connection c = DriverManager.getConnection(URL, USUARIO, SENHA);
-            PreparedStatement ps = c.prepareStatement("SELECT id, data, expiracao, id_usuarioFrom Pedido WHERE id =?");
+            PreparedStatement ps = c.prepareStatement("SELECT id, to_char(data, 'DD/MM/YYYY') as data, to_char(expiracao, 'DD/MM/YYYY') as expiracao, id_usuario from pedido");
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -74,15 +74,15 @@ public class PedidoDAO {
 
     }
 
-    public boolean inserir(String data, int expiracao, float id_usuario, String faixa_etaria, int id_estudio) {
+    public boolean inserir(String data, String expiracao, int id_usuario) {
         boolean sucesso = false;
         try {
             Class.forName("org.postgresql.Driver");
             Connection c = DriverManager.getConnection(URL, USUARIO, SENHA);
-            PreparedStatement ps = c.prepareStatement("INSERT INTO Pedido (data,expiracao,id_usuario) VALUES (?,?,?,?)");
+            PreparedStatement ps = c.prepareStatement("INSERT INTO pedido(data, expiracao, id_usuario) VALUES (to_date(?,'DD/MM/YYYY'), to_date(?,'DD-MM-YYYY'), ?);");
             ps.setString(1, data);
-            ps.setInt(2, expiracao);
-            ps.setFloat(3, id_usuario);
+            ps.setString(2, expiracao);
+            ps.setInt(3, id_usuario);
             int r = ps.executeUpdate();
             sucesso = (r == 1);
 
@@ -97,16 +97,16 @@ public class PedidoDAO {
 
     }
 
-    public boolean atualizar(int id, String data, int expiracao, float id_usuario, String faixa_etaria, int id_estudio) {
+    public boolean atualizar(int id, String data, String expiracao, int id_usuario) {
         boolean sucesso = false;
         try {
             Class.forName("org.postgresql.Driver");
             Connection c = DriverManager.getConnection(URL, USUARIO, SENHA);
-            PreparedStatement ps = c.prepareStatement("UPDATE Pedido SETdata =?,expiracao=?,id_usuario=? WHERE id = ?");
+            PreparedStatement ps = c.prepareStatement("UPDATE pedido SET data = to_date(?, 'DD/MM/YYYY'), expiracao = to_date(?, 'DD/MM/YYYY'), id_usuario = ? WHERE id = ?;");
 
             ps.setString(1, data);
-            ps.setInt(2, expiracao);
-            ps.setFloat(3, id_usuario);
+            ps.setString(2, expiracao);
+            ps.setInt(3, id_usuario);
             ps.setInt(4, id);
 
             int r = ps.executeUpdate();

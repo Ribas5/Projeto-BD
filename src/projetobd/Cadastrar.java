@@ -13,9 +13,10 @@ public class Cadastrar {
         System.out.println("2\t Menu dos filmes");
         System.out.println("3\t Menu dos gêneros");
         System.out.println("4\t menu dos estudios");
+        System.out.println("5\t menu dos pedidos");
         System.out.println("0\t Sair");
         System.out.println("-------------------");
-        System.out.println("escolha uma opção, 0 ate 2");
+        System.out.println("escolha uma opção, 0 ate 5");
 
         int opcao = entrada.nextInt();
         entrada.nextLine();
@@ -34,6 +35,9 @@ public class Cadastrar {
                 break;
             case 4:
                 menuEstudio(entrada);
+                break;
+            case 5:
+                menuPedido(entrada);
                 break;
             default:
                 menuPrincipal(entrada);
@@ -562,6 +566,136 @@ public class Cadastrar {
             System.out.println("***ESTUDIO NÃO REMOVIDO***");
         }
         menuGenero(entrada);
+    }
+
+    ///////////////menu pedido //////////////////
+    public void menuPedido(Scanner entrada) {
+        System.out.println("Cadastro de Pedidos");
+        System.out.println("-------------------");
+        System.out.println("Opção\t Descrição");
+        System.out.println("1\t Listar todos os Pedidos");
+        System.out.println("2\t Listar um unico Pedidos");
+        System.out.println("3\t Inserir um novo Pedidos");
+        System.out.println("4\t Atualizar dados de um Pedidos");
+        System.out.println("5\t Remover um Pedidos");
+        System.out.println("0\t Voltar ao menu");
+        System.out.println("-------------------");
+        System.out.println("escolha uma opção, 0 a 5");
+
+        int opcao = entrada.nextInt();
+        entrada.nextLine();
+
+        switch (opcao) {
+            case 0:
+                menuPrincipal(entrada);
+                break;
+            case 1:
+                ListarTodosPedidos(entrada);
+                break;
+            case 2:
+                ListarUmPedido(entrada);
+                break;
+            case 3:
+                InserirUmPedido(entrada);
+                break;
+            case 4:
+                AtulizarUmPedido(entrada);
+                break;
+            case 5:
+                RemoverUmPedido(entrada);
+                break;
+            default:
+                menuPrincipal(entrada);
+                break;
+        }
+
+    }
+
+    public void ListarTodosPedidos(Scanner entrada) {
+        System.out.println("Cadastro de Pedidos");
+        System.out.println("-------------------");
+        PedidoDAO pedidoDAO = new PedidoDAO();
+        List<Pedido> pedido = pedidoDAO.listarTodos();
+        for (Pedido pedidos : pedido) {
+            System.out.println("** ID: " + pedidos.getId() + " - data: " + pedidos.getData() + " - Expiração: " + pedidos.getExpiracao() + " - Identificador do usuario que fez o pedido: " + pedidos.getIDU() + " **");
+        }
+        System.out.println("* " + pedido.size() + "Pedidos encontrados *");
+        menuPedido(entrada);
+    }
+
+    public void ListarUmPedido(Scanner entrada) {
+        System.out.println("Listar um Pedido");
+        System.out.println("-------------------");
+        System.out.println("Digite o ID do Pedido:");
+        int Id = entrada.nextInt();
+        entrada.nextLine();
+        PedidoDAO pedidoDAO = new PedidoDAO();
+        Pedido pedidos = pedidoDAO.listar(Id);
+        if (pedidos != null) {
+            System.out.println("** ID: " + pedidos.getId() + " - data: " + pedidos.getData() + " - Expiração: " + pedidos.getExpiracao() + " - Identificador do usuario que fez o pedido: " + pedidos.getIDU() + " **");
+        } else {
+            System.out.println("Estudio não encontrado, verifique se o ID esta correto");
+        }
+        menuPedido(entrada);
+    }
+
+    public void InserirUmPedido(Scanner entrada) {
+        System.out.println("Inserir um Pedido");
+        System.out.println("----------------");
+        System.out.println("Digite a data do aluguel: ");
+        String data = entrada.nextLine();
+        System.out.println("Digite a data de expiração: ");
+        String expiracao = entrada.nextLine();
+        System.out.println("Digite o id do usuario que fez o pedido");
+        int id_user = entrada.nextInt();
+        entrada.nextLine();
+        PedidoDAO pedidoDAO = new PedidoDAO();
+        boolean sucesso = pedidoDAO.inserir(data, expiracao, id_user);
+        if (sucesso) {
+            System.out.println("* Pedido CDASTRADO *");
+        } else {
+            System.out.println("***Pedido NÃO CADASTRADO***");
+        }
+        menuPedido(entrada);
+    }
+
+    public void AtulizarUmPedido(Scanner entrada) {
+        System.out.println("Atualizar um Pedido");
+        System.out.println("-------------------");
+        System.out.println("Digite o novo id do pedido");
+        int id = entrada.nextInt();
+        entrada.nextLine();
+        System.out.println("Digite a data do aluguel: ");
+        String data = entrada.nextLine();
+        System.out.println("Digite a data de expiração: ");
+        String expiracao = entrada.nextLine();
+        System.out.println("Digite o id do usuario que fez o pedido");
+        int id_user = entrada.nextInt();
+        entrada.nextLine();
+        PedidoDAO pedidoDAO = new PedidoDAO();
+        boolean sucesso = pedidoDAO.atualizar(id, data, expiracao, id_user);
+        if (sucesso) {
+            System.out.println("* Pedido CADASTRADO *");
+        } else {
+            System.out.println("***Pedido NÃO CADASTRADO***");
+        }
+        menuPedido(entrada);
+    }
+
+    public void RemoverUmPedido(Scanner entrada) {
+        System.out.println("Remova um Pedido do banco");
+        System.out.println("-------------------");
+        System.out.println("Digite o ID do Pedido: ");
+        int Id = entrada.nextInt();
+        entrada.nextLine();
+        EstudioDAO estudioDAO = new EstudioDAO();
+        boolean sucesso = estudioDAO.remover(Id);
+        if (sucesso) {
+            System.out.println("* Pedido REMOVIDO *");
+        } else {
+            System.out.println("***Pedido NÃO REMOVIDO***");
+        }
+        menuPedido(entrada);
     }
 
     public static void main(String[] args) {
