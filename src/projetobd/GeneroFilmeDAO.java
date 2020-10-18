@@ -31,7 +31,7 @@ public class GeneroFilmeDAO {
         try {
             Class.forName("org.postgresql.Driver");
             Connection c = DriverManager.getConnection(URL, USUARIO, SENHA);
-            PreparedStatement ps = c.prepareStatement("SELECT id_genero From genero_filme WHERE idFilme =?");
+            PreparedStatement ps = c.prepareStatement("SELECT id_genero From genero_filme WHERE id_filme =?");
             ps.setInt(1, idFilme);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
