@@ -11,7 +11,8 @@ public class Cadastrar {
         System.out.println("Opção\t Descrição");
         System.out.println("1\t Menu do usuario");
         System.out.println("2\t Menu dos filmes");
-        System.out.println("2\t sair");
+        System.out.println("3\t Menu dos gêneros");
+        System.out.println("0\t Sair");
         System.out.println("-------------------");
         System.out.println("escolha uma opção, 0 ate 2");
 
@@ -26,6 +27,9 @@ public class Cadastrar {
                 break;
             case 2:
                 menuFilme(entrada);
+                break;
+            case 3:
+                menuGenero(entrada);
                 break;
             default:
                 menuPrincipal(entrada);
@@ -312,6 +316,125 @@ public class Cadastrar {
             System.out.println("***FILME NÃO REMOVIDO***");
         }
         menuFilme (entrada);
+    }
+    
+    public void menuGenero(Scanner entrada) {
+        System.out.println("Cadastro de Gêneros");
+        System.out.println("-------------------");
+        System.out.println("Opção\t Descrição");
+        System.out.println("1\t Listar todos os gêneros");
+        System.out.println("2\t Listar um unico gênero");
+        System.out.println("3\t Inserir um novo gênero");
+        System.out.println("4\t Atualizar dados de um gênero");
+        System.out.println("5\t Remover um gênero");
+        System.out.println("0\t Voltar ao menu");
+        System.out.println("-------------------");
+        System.out.println("escolha uma opção, 0 a 5");
+
+        int opcao = entrada.nextInt();
+        entrada.nextLine();
+
+        switch (opcao) {
+            case 0:
+                menuPrincipal(entrada);
+                break;
+            case 1:
+                ListarTodosGeneros(entrada);
+                break;
+            case 2:
+                ListarUmGenero(entrada);
+                break;
+            case 3:
+                InserirUmGenero(entrada);
+                break;
+            case 4:
+                AtulizarUmGenero(entrada);
+                break;
+            case 5:
+                RemoverUmGenero(entrada);
+                break;
+            default:
+                menuPrincipal(entrada);
+                break;
+        }
+
+    }
+
+    public void ListarTodosGeneros(Scanner entrada) {
+        System.out.println("Cadastro de Gêneros");
+        System.out.println("-------------------");
+        GeneroDAO generoDAO = new GeneroDAO();
+        List<Genero> genero = generoDAO.listarTodos();
+        for (Genero generos : genero) {
+            System.out.println("** ID: " + generos.getId() + " - descricao: " + generos.getDescricao() + " **");
+        }
+        System.out.println("* " + genero.size() + "generos encontrados *");
+        menuGenero(entrada);
+    }
+
+    public void ListarUmGenero(Scanner entrada) {
+        System.out.println("Listar um Gênero");
+        System.out.println("-------------------");
+        System.out.println("Digite o ID do Gênero:");
+        int Id = entrada.nextInt();
+        entrada.nextLine();
+        GeneroDAO generoDAO = new GeneroDAO();
+        Genero generos = generoDAO.listar(Id);
+        if (generos != null) {
+            System.out.println("** ID: " + generos.getId() + " - descrição: " + generos.getDescricao() + " **");
+        } else {
+            System.out.println("Gênero não encontrado");
+        }
+        menuGenero(entrada);
+    }
+
+    public void InserirUmGenero(Scanner entrada) {
+        System.out.println("Inserir um Genero");
+        System.out.println("-------------------");
+        System.out.println("Digite a descrição do Gênero: ");
+        String descricao = entrada.nextLine();
+        GeneroDAO generoDAO = new GeneroDAO();
+        boolean sucesso = generoDAO.inserir(descricao);
+        if (sucesso) {
+            System.out.println("* GÊNERO CADASTRADO *");
+        } else {
+            System.out.println("***GÊNERO NÃO CADASTRADO***");
+        }
+        menuGenero(entrada);
+    }
+
+    public void AtulizarUmGenero(Scanner entrada) {
+        System.out.println("Atualizar um Gênero");
+        System.out.println("-------------------");
+        System.out.println("Digite o ID do Genero:");
+        int Id = entrada.nextInt();
+        entrada.nextLine();
+        System.out.println("Digite a nova descrição do Gênero:");
+        String descricao = entrada.nextLine();
+        GeneroDAO generoDAO = new GeneroDAO();
+        boolean sucesso = generoDAO.atualizar(Id,descricao);
+        if (sucesso) {
+            System.out.println("* GÊNERO CADASTRADO *");
+        } else {
+            System.out.println("***GÊNERO NÃO CADASTRADO***");
+        }
+        menuGenero(entrada);
+    }
+
+    public void RemoverUmGenero(Scanner entrada) {
+        System.out.println("Remova um Genero");
+        System.out.println("-------------------");
+        System.out.println("Digite o ID do Genero:");
+        int Id = entrada.nextInt();
+        entrada.nextLine();
+        GeneroDAO generoDAO = new GeneroDAO();
+        boolean sucesso = generoDAO.remover(Id);
+        if (sucesso) {
+            System.out.println("* GÊNERO REMOVIDO *");
+        } else {
+            System.out.println("***GÊNERO NÃO REMOVIDO***");
+        }
+        menuGenero (entrada);
     }
 
     public static void main(String[] args) {
