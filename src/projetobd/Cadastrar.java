@@ -6,13 +6,14 @@ import java.util.Scanner;
 public class Cadastrar {
 
     public void menuPrincipal(Scanner entrada) {
-        System.out.println("Cadastro Java");
+        System.out.println("Menu Java");
         System.out.println("-------------------");
         System.out.println("Opção\t Descrição");
-        System.out.println("1\t Cadastrar usuario");
+        System.out.println("1\t Menu do usuario");
+        System.out.println("2\t Menu dos filmes");
         System.out.println("2\t sair");
         System.out.println("-------------------");
-        System.out.println("escolha uma opção, 0 ou 1");
+        System.out.println("escolha uma opção, 0 ate 2");
 
         int opcao = entrada.nextInt();
         entrada.nextLine();
@@ -21,7 +22,10 @@ public class Cadastrar {
             case 0:
                 break;
             case 1:
-                menuCadastroUsuario(entrada);
+                menuUsuario(entrada);
+                break;
+            case 2:
+                menuFilme(entrada);
                 break;
             default:
                 menuPrincipal(entrada);
@@ -30,7 +34,7 @@ public class Cadastrar {
 
     }
 
-    public void menuCadastroUsuario(Scanner entrada) {
+    public void menuUsuario(Scanner entrada) {
         System.out.println("Cadastro de Usuarios");
         System.out.println("-------------------");
         System.out.println("Opção\t Descrição");
@@ -41,7 +45,7 @@ public class Cadastrar {
         System.out.println("5\t Remover um usuario");
         System.out.println("0\t Voltar ao menu");
         System.out.println("-------------------");
-        System.out.println("escolha uma opção, 0 ou 1");
+        System.out.println("escolha uma opção, 0 a 5");
 
         int opcao = entrada.nextInt();
         entrada.nextLine();
@@ -51,19 +55,19 @@ public class Cadastrar {
                 menuPrincipal(entrada);
                 break;
             case 1:
-                MCUListarTodosUsuarios(entrada);
+                ListarTodosUsuarios(entrada);
                 break;
             case 2:
-                MCUListarUmUsuarios(entrada);
+                ListarUmUsuarios(entrada);
                 break;
             case 3:
-                MCUInserirUmUsuario(entrada);
+                InserirUmUsuario(entrada);
                 break;
             case 4:
-                MCUAtulizarUmUsuario(entrada);
+                AtulizarUmUsuario(entrada);
                 break;
             case 5:
-                MCURemoverUmUsuario(entrada);
+                RemoverUmUsuario(entrada);
                 break;
             default:
                 menuPrincipal(entrada);
@@ -72,19 +76,19 @@ public class Cadastrar {
 
     }
 
-    public void MCUListarTodosUsuarios(Scanner entrada) {
+    public void ListarTodosUsuarios(Scanner entrada) {
         System.out.println("Cadastro de Usuarios");
         System.out.println("-------------------");
         UsuarioDAO usuarioDAO = new UsuarioDAO();
         List<Usuario> usuarios = usuarioDAO.listarTodos();
         for (Usuario usuario : usuarios) {
-            System.out.println("** ID: " + usuario.getId() + " - nome: " + usuario.getNome() + " - idade: " + usuario.getIdade() + " - email: " + usuario.getEmail() + " - senha: " + " - saldo: " + usuario.getSaldo() + " **");
+            System.out.println("** ID: " + usuario.getId() + " - nome: " + usuario.getNome() + " - idade: " + usuario.getIdade() + " - email: " + usuario.getEmail() + " - senha: " + usuario.getSenha() + " - saldo: " + usuario.getSaldo() + " **");
         }
         System.out.println("* " + usuarios.size() + "usuarios encontrados *");
-        menuCadastroUsuario(entrada);
+        menuUsuario(entrada);
     }
 
-    public void MCUListarUmUsuarios(Scanner entrada) {
+    public void ListarUmUsuarios(Scanner entrada) {
         System.out.println("Listar um Usuario");
         System.out.println("-------------------");
         System.out.println("Digite o ID do Usuario:");
@@ -93,14 +97,14 @@ public class Cadastrar {
         UsuarioDAO usuarioDAO = new UsuarioDAO();
         Usuario usuario = usuarioDAO.listar(Id);
         if (usuario != null) {
-            System.out.println("** ID: " + usuario.getId() + " - nome: " + usuario.getNome() + " - idade: " + usuario.getIdade() + " - email: " + usuario.getEmail() + " - senha: " + " - saldo: " + usuario.getSaldo() + " **");
+            System.out.println("** ID: " + usuario.getId() + " - nome: " + usuario.getNome() + " - idade: " + usuario.getIdade() + " - email: " + usuario.getEmail() + " - senha: " + usuario.getSenha() + " - saldo: " + usuario.getSaldo() + " **");
         } else {
             System.out.println("Usuario não encontrado");
         }
-        menuCadastroUsuario(entrada);
+        menuUsuario(entrada);
     }
 
-    public void MCUInserirUmUsuario(Scanner entrada) {
+    public void InserirUmUsuario(Scanner entrada) {
         System.out.println("Inserir um Usuario");
         System.out.println("-------------------");
         System.out.println("Digite o nome do Usuario:");
@@ -116,16 +120,16 @@ public class Cadastrar {
         float saldo = entrada.nextFloat();
         entrada.nextLine();
         UsuarioDAO usuarioDAO = new UsuarioDAO();
-        boolean sucesso = usuarioDAO.inserir( nome, idade, senha, email, saldo);
+        boolean sucesso = usuarioDAO.inserir(nome, idade, senha, email, saldo);
         if (sucesso) {
             System.out.println("* USUARIO CDASTRADO *");
         } else {
             System.out.println("***USUARIO NÃO CADASTRADO***");
         }
-        menuCadastroUsuario(entrada);
+        menuUsuario(entrada);
     }
 
-    public void MCUAtulizarUmUsuario(Scanner entrada) {
+    public void AtulizarUmUsuario(Scanner entrada) {
         System.out.println("Atualizar um Usuario");
         System.out.println("-------------------");
         System.out.println("Digite o ID do Usuario:");
@@ -150,10 +154,10 @@ public class Cadastrar {
         } else {
             System.out.println("***USUARIO NÃO Atualizado***");
         }
-        menuCadastroUsuario(entrada);
+        menuUsuario(entrada);
     }
 
-    public void MCURemoverUmUsuario(Scanner entrada) {
+    public void RemoverUmUsuario(Scanner entrada) {
         System.out.println("Remova um Usuario");
         System.out.println("-------------------");
         System.out.println("Digite o ID do Usuario:");
@@ -166,15 +170,155 @@ public class Cadastrar {
         } else {
             System.out.println("***USUARIO NÃO REMOVIDO***");
         }
-        menuCadastroUsuario(entrada);
+        menuUsuario(entrada);
+    }
+
+    public void menuFilme(Scanner entrada) {
+        System.out.println("Cadastro de Usuarios");
+        System.out.println("-------------------");
+        System.out.println("Opção\t Descrição");
+        System.out.println("1\t Listar todos os filmes");
+        System.out.println("2\t Listar um unico filme");
+        System.out.println("3\t Inserir um novo filme");
+        System.out.println("4\t Atualizar dados de um filme");
+        System.out.println("5\t Remover um filme");
+        System.out.println("0\t Voltar ao menu");
+        System.out.println("-------------------");
+        System.out.println("escolha uma opção, 0 a 5");
+
+        int opcao = entrada.nextInt();
+        entrada.nextLine();
+
+        switch (opcao) {
+            case 0:
+                menuPrincipal(entrada);
+                break;
+            case 1:
+                ListarTodosFilmes(entrada);
+                break;
+            case 2:
+                ListarUmFilme(entrada);
+                break;
+            case 3:
+                InserirUmFilme(entrada);
+                break;
+            case 4:
+                AtulizarUmFilme(entrada);
+                break;
+            case 5:
+                RemoverUmFilme(entrada);
+                break;
+            default:
+                menuPrincipal(entrada);
+                break;
+        }
+
+    }
+
+    public void ListarTodosFilmes(Scanner entrada) {
+        System.out.println("Cadastro de Filme");
+        System.out.println("-------------------");
+        FilmeDAO filmeDAO = new FilmeDAO();
+        List<Filme> filme = filmeDAO.listarTodos();
+        for (Filme filmes : filme) {
+            System.out.println("** ID: " + filmes.getId() + " - nome: " + filmes.getNome() + " - duração: " + filmes.getDuracao() + " - preço: " + filmes.getPreco() + " - Faixa etaria: " + filmes.getFaixaetaria() + " - ID do estudio: " + filmes.getIdestudio() + " **");
+        }
+        System.out.println("* " + filme.size() + "filmes encontrados *");
+        menuFilme(entrada);
+    }
+
+    public void ListarUmFilme(Scanner entrada) {
+        System.out.println("Listar um Filme");
+        System.out.println("-------------------");
+        System.out.println("Digite o ID do Filme:");
+        int Id = entrada.nextInt();
+        entrada.nextLine();
+        FilmeDAO filmeDAO = new FilmeDAO();
+        Filme filmes = filmeDAO.listar(Id);
+        if (filmes != null) {
+            System.out.println("** ID: " + filmes.getId() + " - nome: " + filmes.getNome() + " - duração: " + filmes.getDuracao() + " - preço: " + filmes.getPreco() + " - Faixa etaria: " + filmes.getFaixaetaria() + " - ID do estudio: " + filmes.getIdestudio() + " **");
+        } else {
+            System.out.println("Filme não encontrado");
+        }
+        menuFilme(entrada);
+    }
+
+    public void InserirUmFilme(Scanner entrada) {
+        System.out.println("Inserir um Filme");
+        System.out.println("-------------------");
+        System.out.println("Digite o nome do Filme: ");
+        String nome = entrada.nextLine();
+        System.out.println("Digite a duração do Filme:");
+        int duracao = entrada.nextInt();
+        entrada.nextLine();
+        System.out.println("Digite o preço do Filme:");
+        float preco = entrada.nextFloat();
+        entrada.nextLine();
+        System.out.println("Digite a faixa etaria do Filme:");
+        String fetaria = entrada.nextLine();
+        System.out.println("Digite o id do estudio do Filme:");
+        int idestudio = entrada.nextInt();
+        entrada.nextLine();
+        FilmeDAO filmeDAO = new FilmeDAO();
+        boolean sucesso = filmeDAO.inserir(nome, duracao, preco, fetaria, idestudio);
+        if (sucesso) {
+            System.out.println("* FILME CDASTRADO *");
+        } else {
+            System.out.println("***FILME NÃO CADASTRADO***");
+        }
+        menuFilme(entrada);
+    }
+
+    public void AtulizarUmFilme(Scanner entrada) {
+        System.out.println("Atualizar um Filme");
+        System.out.println("-------------------");
+        System.out.println("Digite o ID do Filme:");
+        int Id = entrada.nextInt();
+        entrada.nextLine();
+        System.out.println("Digite o novo nome do Filme:");
+        String nome = entrada.nextLine();
+        System.out.println("Digite a duração do Filme:");
+        int duracao = entrada.nextInt();
+        entrada.nextLine();
+        System.out.println("Digite o preço do Filme:");
+        float preco = entrada.nextFloat();
+        entrada.nextLine();
+        System.out.println("Digite a faixa etaria do Filme:");
+        String fetaria = entrada.nextLine();
+        System.out.println("Digite o id do estudio do Filme:");
+        int idestudio = entrada.nextInt();
+        entrada.nextLine();
+        FilmeDAO filmeDAO = new FilmeDAO();
+        boolean sucesso = filmeDAO.atualizar(Id,nome, duracao, preco, fetaria, idestudio);
+        if (sucesso) {
+            System.out.println("* FILME CDASTRADO *");
+        } else {
+            System.out.println("***FILME NÃO CADASTRADO***");
+        }
+        menuFilme(entrada);
+    }
+
+    public void RemoverUmFilme(Scanner entrada) {
+        System.out.println("Remova um Filme");
+        System.out.println("-------------------");
+        System.out.println("Digite o ID do Filme:");
+        int Id = entrada.nextInt();
+        entrada.nextLine();
+        FilmeDAO filmeDAO = new FilmeDAO();
+        boolean sucesso = filmeDAO.remover(Id);
+        if (sucesso) {
+            System.out.println("* FILME REMOVIDO *");
+        } else {
+            System.out.println("***FILME NÃO REMOVIDO***");
+        }
+        menuFilme (entrada);
     }
 
     public static void main(String[] args) {
-        Scanner entrada = new Scanner (System.in);
+        Scanner entrada = new Scanner(System.in);
         Cadastrar cadastrar = new Cadastrar();
         cadastrar.menuPrincipal(entrada);
         entrada.close();
-        
-    }
 
+    }
 }
