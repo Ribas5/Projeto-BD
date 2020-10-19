@@ -90,7 +90,6 @@ public class FilmeDAO {
             ps.setString(4, faixa_etaria);
             ps.setInt(5, id_estudio);
             int r = ps.executeUpdate();
-            System.out.println(r);
             sucesso = (r == 1);
 
             ps.close();
