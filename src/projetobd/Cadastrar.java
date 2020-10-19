@@ -1,5 +1,6 @@
 package projetobd;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -194,8 +195,9 @@ public class Cadastrar {
         System.out.println("1\t Listar todos os filmes");
         System.out.println("2\t Listar um unico filme");
         System.out.println("3\t Inserir um novo filme");
-        System.out.println("4\t Atualizar dados de um filme");
-        System.out.println("5\t Remover um filme");
+        System.out.println("4\t Inserir os gêneros de um filme");
+        System.out.println("5\t Atualizar dados de um filme");
+        System.out.println("6\t Remover um filme");
         System.out.println("0\t Voltar ao menu");
         System.out.println("-------------------");
         System.out.println("escolha uma opção, 0 a 5");
@@ -217,9 +219,12 @@ public class Cadastrar {
                 InserirUmFilme(entrada);
                 break;
             case 4:
-                AtulizarUmFilme(entrada);
+                InserirGenerosUmFilme(entrada);
                 break;
             case 5:
+                AtulizarUmFilme(entrada);
+                break;
+            case 6:
                 RemoverUmFilme(entrada);
                 break;
             default:
@@ -269,18 +274,14 @@ public class Cadastrar {
                 }
             }
             System.out.print(" - preço: " + filmes.getPreco() + " - Faixa etaria: " + filmes.getFaixaetaria() + " - ID do estudio: " + filmes.getIdestudio() + " **\n");
-        }
-    
-
-    
-        else {
+        } else {
             System.out.println("Filme não encontrado");
+        }
+
+        menuFilme(entrada);
     }
 
-    menuFilme(entrada);
-}
-
-public void InserirUmFilme(Scanner entrada) {
+    public void InserirUmFilme(Scanner entrada) {
         System.out.println("Inserir um Filme");
         System.out.println("-------------------");
         System.out.println("Digite o nome do Filme: ");
@@ -306,6 +307,43 @@ public void InserirUmFilme(Scanner entrada) {
         menuFilme(entrada);
     }
 
+    public void InserirGenerosUmFilme(Scanner entrada) {
+        GeneroFilmeDAO generoFilmeDAO = new GeneroFilmeDAO();
+        System.out.println("Inserir os gêneros de um filme");
+        System.out.println("-------------------");
+        System.out.println("Digite o ID do Filme: ");
+        int idFilme = entrada.nextInt();
+        entrada.nextLine();
+        List<Integer> idGeneros = new ArrayList<Integer>();
+        System.out.println("Deseja visualizar todos os gêneros? (S/N)");
+        String opcao = entrada.nextLine();
+        if (opcao.equals("S") || opcao.equals("s")) {
+            ListarTodosGeneros(entrada, false);
+        }
+        int idGenero = 0;
+        System.out.println("Digite os IDs dos gêneros desejados (Digite -1 para terminar):");
+        while (idGenero != -1) {
+            idGenero = entrada.nextInt();
+            entrada.nextLine();
+            idGeneros.add(idGenero);
+        }
+
+        boolean sucesso = false;
+        for (int genero : idGeneros) {
+            if (genero != -1) {
+                sucesso = generoFilmeDAO.inserir(idFilme, genero);
+            }
+        }
+
+        if (sucesso) {
+            System.out.println("* GÊNEROS CADASTRADOs *");
+        } else {
+            System.out.println("***GÊNEROS NÃO CADASTRADOS***");
+        }
+
+        menuFilme(entrada);
+    }
+
     public void AtulizarUmFilme(Scanner entrada) {
         System.out.println("Atualizar um Filme");
         System.out.println("-------------------");
@@ -325,14 +363,48 @@ public void InserirUmFilme(Scanner entrada) {
         System.out.println("Digite o id do estudio do Filme:");
         int idestudio = entrada.nextInt();
         entrada.nextLine();
+        
+        String opcao = "S";
+        while (opcao.equals("S") || opcao.equals("s")) {
+            System.out.println("Deseja alterar um gênero do filme? (S/N)");
+            opcao = entrada.nextLine();
+            if (opcao.equals("S") || opcao.equals("s")) {
+                AtualizarUmGeneroFilme(entrada, Id);
+            }
+        }
+        
         FilmeDAO filmeDAO = new FilmeDAO();
         boolean sucesso = filmeDAO.atualizar(Id, nome, duracao, preco, fetaria, idestudio);
+        
         if (sucesso) {
-            System.out.println("* FILME CDASTRADO *");
+            System.out.println("* FILME ATUALIZADO *");
         } else {
-            System.out.println("***FILME NÃO CADASTRADO***");
+            System.out.println("***FILME NÃO ATUALIZADO***");
         }
         menuFilme(entrada);
+    }
+
+    public void AtualizarUmGeneroFilme(Scanner entrada, int idFilme) {
+        GeneroFilmeDAO generoFilmeDAO = new GeneroFilmeDAO();
+        System.out.println("os gêneros de um filme");
+        System.out.println("-------------------");
+        System.out.println("Deseja visualizar todos os gêneros? (S/N)");
+        String opcao = entrada.nextLine();
+        if (opcao.equals("S") || opcao.equals("s")) {
+            ListarTodosGeneros(entrada, false);
+        }
+        System.out.println("Digite o ID do gênero para atualizar:");
+        int idGenero = entrada.nextInt();
+        entrada.nextLine();
+        System.out.println("Digite o ID do novo gênero:");
+        int idNovoGenero = entrada.nextInt();
+        entrada.nextLine();
+        boolean sucesso = generoFilmeDAO.atualizar(idFilme, idGenero, idNovoGenero);
+        if (sucesso) {
+            System.out.println("* GÊNERO ATUALIZADO *");
+        } else {
+            System.out.println("***GÊNERO NÃO ATUALIZADO***");
+        }
     }
 
     public void RemoverUmFilme(Scanner entrada) {
@@ -373,7 +445,7 @@ public void InserirUmFilme(Scanner entrada) {
                 menuPrincipal(entrada);
                 break;
             case 1:
-                ListarTodosGeneros(entrada);
+                ListarTodosGeneros(entrada, true);
                 break;
             case 2:
                 ListarUmGenero(entrada);
@@ -394,7 +466,7 @@ public void InserirUmFilme(Scanner entrada) {
 
     }
 
-    public void ListarTodosGeneros(Scanner entrada) {
+    public void ListarTodosGeneros(Scanner entrada, boolean menu) {
         System.out.println("Cadastro de Gêneros");
         System.out.println("-------------------");
         GeneroDAO generoDAO = new GeneroDAO();
@@ -403,7 +475,9 @@ public void InserirUmFilme(Scanner entrada) {
             System.out.println("** ID: " + generos.getId() + " - descricao: " + generos.getDescricao() + " **");
         }
         System.out.println("* " + genero.size() + "generos encontrados *");
-        menuGenero(entrada);
+        if (menu) {
+            menuGenero(entrada);
+        }
     }
 
     public void ListarUmGenero(Scanner entrada) {

@@ -90,6 +90,7 @@ public class FilmeDAO {
             ps.setString(4, faixa_etaria);
             ps.setInt(5, id_estudio);
             int r = ps.executeUpdate();
+            System.out.println(r);
             sucesso = (r == 1);
 
             ps.close();
@@ -108,7 +109,7 @@ public class FilmeDAO {
         try {
             Class.forName("org.postgresql.Driver");
             Connection c = DriverManager.getConnection(URL, USUARIO, SENHA);
-            PreparedStatement ps = c.prepareStatement("UPDATE Filme SETnome =?,duracao=?,preco=?,faixa_etaria=?,id_estudio=? WHERE id = ?");
+            PreparedStatement ps = c.prepareStatement("UPDATE filme SET nome = ?, duracao = ?, preco = ?, faixa_etaria = ?, id_estudio = ? WHERE id = ?");
 
             ps.setString(1, nome);
             ps.setInt(2, duracao);
