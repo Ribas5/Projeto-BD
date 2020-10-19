@@ -5,7 +5,7 @@
 -- Dumped from database version 10.14
 -- Dumped by pg_dump version 10.14
 
--- Started on 2020-10-12 16:00:10
+-- Started on 2020-10-19 10:24:02
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -322,6 +322,7 @@ COPY public.estudio (id, nome) FROM stdin;
 8	In Consulting
 9	Nullam Inc.
 10	Placerat Incorporated
+11	Wanner
 \.
 
 
@@ -333,7 +334,6 @@ COPY public.estudio (id, nome) FROM stdin;
 
 COPY public.filme (id, nome, duracao, preco, faixa_etaria, id_estudio) FROM stdin;
 1	 Shrek Terceiro	204	11	+16	1
-2	UP Altas Aventuras	71	31	Livre	5
 3	Mad Max	171	18	+12	3
 4	Doutor Estranho	169	38	+18	2
 5	Avatar	198	40	Livre	1
@@ -350,6 +350,9 @@ COPY public.filme (id, nome, duracao, preco, faixa_etaria, id_estudio) FROM stdi
 16	 O Gigante de Ferro	95	40	+18	4
 17	Avengers Guerra infinita	68	25	+10	10
 18	Blade Runner	65	29	+18	2
+19	Trolls	120	40.3	Livre	1
+2	Barbie e as sereias	100	15.5	Livre	3
+21	Speed Racer	120	50.2	+10	2
 \.
 
 
@@ -366,6 +369,8 @@ COPY public.genero (id, descricao) FROM stdin;
 4	Ficção
 5	Aventura
 6	Drama
+7	Corrida
+8	comedia
 \.
 
 
@@ -381,7 +386,6 @@ COPY public.genero_filme (id_filme, id_genero) FROM stdin;
 17	3
 13	2
 10	5
-2	6
 1	1
 1	6
 13	4
@@ -390,7 +394,6 @@ COPY public.genero_filme (id_filme, id_genero) FROM stdin;
 4	5
 9	3
 18	5
-2	1
 4	6
 9	2
 15	4
@@ -404,6 +407,8 @@ COPY public.genero_filme (id_filme, id_genero) FROM stdin;
 12	2
 16	2
 16	6
+2	8
+2	3
 \.
 
 
@@ -454,6 +459,7 @@ COPY public.pedido (id, data, expiracao, id_usuario) FROM stdin;
 38	2019-10-03	2021-08-18	36
 39	2020-01-03	2021-02-25	17
 40	2019-12-02	2021-04-29	7
+41	2020-05-12	2020-05-25	2
 \.
 
 
@@ -586,6 +592,8 @@ Ashton Reid	37	34	UEQ44WCQ6MA	vulputate.lacus.Cras@augueSedmolestie.org	79
 Willa Levy	38	23	KTZ86JQO0PW	eu@Nuncmauris.com	1
 Renee Frost	39	40	ZEG68RXO2YV	ornare@volutpat.ca	103
 Colette Le	40	53	SQC89PRF2WE	ac@elit.org	21
+ivo	42	52	123	ivoBB@@BB	15
+ivo	43	45	123	ivo@cc	12.5
 \.
 
 
@@ -595,7 +603,7 @@ Colette Le	40	53	SQC89PRF2WE	ac@elit.org	21
 -- Name: estudio_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.estudio_id_seq', 10, true);
+SELECT pg_catalog.setval('public.estudio_id_seq', 11, true);
 
 
 --
@@ -604,7 +612,7 @@ SELECT pg_catalog.setval('public.estudio_id_seq', 10, true);
 -- Name: filme_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.filme_id_seq', 18, true);
+SELECT pg_catalog.setval('public.filme_id_seq', 21, true);
 
 
 --
@@ -613,7 +621,7 @@ SELECT pg_catalog.setval('public.filme_id_seq', 18, true);
 -- Name: genero_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.genero_id_seq', 6, true);
+SELECT pg_catalog.setval('public.genero_id_seq', 8, true);
 
 
 --
@@ -622,7 +630,7 @@ SELECT pg_catalog.setval('public.genero_id_seq', 6, true);
 -- Name: pedido_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.pedido_id_seq', 40, true);
+SELECT pg_catalog.setval('public.pedido_id_seq', 41, true);
 
 
 --
@@ -631,7 +639,7 @@ SELECT pg_catalog.setval('public.pedido_id_seq', 40, true);
 -- Name: usuario_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.usuario_id_seq', 40, true);
+SELECT pg_catalog.setval('public.usuario_id_seq', 43, true);
 
 
 --
@@ -751,7 +759,7 @@ ALTER TABLE ONLY public.pedido_filme
     ADD CONSTRAINT pf_pedido_id_fkey FOREIGN KEY (id_pedido) REFERENCES public.pedido(id) ON UPDATE CASCADE ON DELETE RESTRICT;
 
 
--- Completed on 2020-10-12 16:00:12
+-- Completed on 2020-10-19 10:24:03
 
 --
 -- PostgreSQL database dump complete
