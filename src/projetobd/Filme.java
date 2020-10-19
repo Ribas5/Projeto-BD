@@ -30,7 +30,7 @@ public class Filme {
         return faixa_etaria;
     }
 
-    public float getIdestudio() {
+    public int getIdestudio() {
         return id_estudio;
     }
 

@@ -48,7 +48,7 @@ public class EstudioDAO {
         try {
             Class.forName("org.postgresql.Driver");
             Connection c = DriverManager.getConnection(URL, USUARIO, SENHA);
-            PreparedStatement ps = c.prepareStatement("SELECT id, nome From estudio");
+            PreparedStatement ps = c.prepareStatement("SELECT id, nome From estudio WHERE id = ?");
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {

@@ -108,7 +108,7 @@ public class UsuarioDAO {
         try {
             Class.forName("org.postgresql.Driver");
             Connection c = DriverManager.getConnection(URL, USUARIO, SENHA);
-            PreparedStatement ps = c.prepareStatement("UPDATE Usuario SETnome =?,idade=?,senha=?,email=?,saldo=? WHERE id = ?");
+            PreparedStatement ps = c.prepareStatement("UPDATE Usuario SET nome =?,idade=?,senha=?,email=?,saldo=? WHERE id = ?");
 
             ps.setString(1, nome);
             ps.setInt(2, idade);
@@ -138,6 +138,29 @@ public class UsuarioDAO {
             PreparedStatement ps = c.prepareStatement("DELETE FROM Usuario WHERE id = ?");
 
             ps.setInt(1, id);
+
+            int r = ps.executeUpdate();
+            sucesso = (r == 1);
+
+            ps.close();
+            c.close();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return sucesso;
+    }
+    
+    public boolean alterarSaldo(int id, float novoSaldo) {
+        boolean sucesso = false;
+        try {
+            Class.forName("org.postgresql.Driver");
+            Connection c = DriverManager.getConnection(URL, USUARIO, SENHA);
+            PreparedStatement ps = c.prepareStatement("UPDATE Usuario SET saldo=? WHERE id = ?");
+
+            ps.setFloat(1, novoSaldo);
+            ps.setInt(2, id);
 
             int r = ps.executeUpdate();
             sucesso = (r == 1);

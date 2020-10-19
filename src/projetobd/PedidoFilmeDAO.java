@@ -25,9 +25,9 @@ public class PedidoFilmeDAO {
     private static final String SENHA = "qwer1234";
 
 
-    public List<Genero> listarPedidosFilme(int idFilme) {
-        List<Genero> resultado = new ArrayList<Genero>();
-        GeneroDAO generoDAO = new GeneroDAO();
+    public List<Pedido> listarPedidosFilme(int idFilme) {
+        List<Pedido> resultado = new ArrayList<Pedido>();
+        PedidoDAO pedidoDAO = new PedidoDAO();
         try {
             Class.forName("org.postgresql.Driver");
             Connection c = DriverManager.getConnection(URL, USUARIO, SENHA);
@@ -35,17 +35,17 @@ public class PedidoFilmeDAO {
             ps.setInt(1, idFilme);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                Genero g = generoDAO.listar(rs.getInt("id_pedido"));
-                resultado.add(g);
+                Pedido p = pedidoDAO.listar(rs.getInt("id_pedido"));
+                resultado.add(p);
             }
 
             rs.close();
             ps.close();
             c.close();
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(GeneroFilmeDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PedidoFilmeDAO.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(GeneroFilmeDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PedidoFilmeDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         return resultado;
@@ -69,9 +69,9 @@ public class PedidoFilmeDAO {
             ps.close();
             c.close();
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(GeneroFilmeDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PedidoFilmeDAO.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(GeneroFilmeDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PedidoFilmeDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return resultado;
     }
@@ -90,15 +90,15 @@ public class PedidoFilmeDAO {
             ps.close();
             c.close();
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(GeneroFilmeDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PedidoFilmeDAO.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(GeneroFilmeDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PedidoFilmeDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return sucesso;
 
     }
 
-    public boolean atualizar(int idFilme, int idPedido, int idNovoFilme) {
+    public boolean atualizar(int idPedido, int idFilme, int idNovoFilme) {
         boolean sucesso = false;
         try {
             Class.forName("org.postgresql.Driver");
@@ -115,14 +115,14 @@ public class PedidoFilmeDAO {
             ps.close();
             c.close();
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(GeneroFilmeDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PedidoFilmeDAO.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(GeneroFilmeDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PedidoFilmeDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return sucesso;
     }
 
-    public boolean remover(int idFilme, int idPedido) {
+    public boolean remover(int idPedido, int idFilme) {
         boolean sucesso = false;
         try {
             Class.forName("org.postgresql.Driver");
@@ -138,9 +138,9 @@ public class PedidoFilmeDAO {
             ps.close();
             c.close();
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(GeneroFilmeDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PedidoFilmeDAO.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(GeneroFilmeDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PedidoFilmeDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return sucesso;
     }

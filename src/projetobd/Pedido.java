@@ -20,7 +20,7 @@ public class Pedido {
         return expiracao;
     }
 
-    public float getIDU() {
+    public int getIDU() {
         return id_usuario;
     }
 
