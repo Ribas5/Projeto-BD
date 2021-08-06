@@ -12,9 +12,11 @@ import java.util.logging.Logger;
 
 public class FilmeDAO {
 
+
     private static final String URL = "jdbc:postgresql://localhost:5432/projetobd";
     private static final String USUARIO = "postgres";
-    private static final String SENHA = "qwer1234";
+    private static final String SENHA = "admin";
+
 
     public List<Filme> listarTodos() {
         List<Filme> resultado = new ArrayList<Filme>();

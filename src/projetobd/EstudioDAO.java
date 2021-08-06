@@ -14,7 +14,7 @@ public class EstudioDAO {
 
     private static final String URL = "jdbc:postgresql://localhost:5432/projetobd";
     private static final String USUARIO = "postgres";
-    private static final String SENHA = "qwer1234";
+    private static final String SENHA = "admin";
 
     public List<Estudio> listarTodos() {
         List<Estudio> resultado = new ArrayList<Estudio>();

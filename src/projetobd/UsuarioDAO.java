@@ -14,7 +14,8 @@ public class UsuarioDAO {
 
     private static final String URL = "jdbc:postgresql://localhost:5432/projetobd";
     private static final String USUARIO = "postgres";
-    private static final String SENHA = "qwer1234";
+    private static final String SENHA = "admin";
+
 
     public List<Usuario> listarTodos() {
         List<Usuario> resultado = new ArrayList<Usuario>();
@@ -52,7 +53,7 @@ public class UsuarioDAO {
         try {
             Class.forName("org.postgresql.Driver");
             Connection c = DriverManager.getConnection(URL, USUARIO, SENHA);
-            PreparedStatement ps = c.prepareStatement("SELECT id, nome, idade, senha, email, saldo From Usuario WHERE id =?");
+            PreparedStatement ps = c.prepareStatement("SELECT id, nome, idade, senha, email, saldo From usuario WHERE id =?");
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -83,7 +84,7 @@ public class UsuarioDAO {
         try {
             Class.forName("org.postgresql.Driver");
             Connection c = DriverManager.getConnection(URL, USUARIO, SENHA);
-            PreparedStatement ps = c.prepareStatement("INSERT INTO Usuario (nome,idade,senha,email,saldo) VALUES (?,?,?,?,?)");
+            PreparedStatement ps = c.prepareStatement("INSERT INTO usuario (nome,idade,senha,email,saldo) VALUES (?,?,?,?,?)");
             ps.setString(1, nome);
             ps.setInt(2, idade);
             ps.setString(3, senha);
@@ -108,7 +109,7 @@ public class UsuarioDAO {
         try {
             Class.forName("org.postgresql.Driver");
             Connection c = DriverManager.getConnection(URL, USUARIO, SENHA);
-            PreparedStatement ps = c.prepareStatement("UPDATE Usuario SET nome =?,idade=?,senha=?,email=?,saldo=? WHERE id = ?");
+            PreparedStatement ps = c.prepareStatement("UPDATE usuario SET nome =?,idade=?,senha=?,email=?,saldo=? WHERE id = ?");
 
             ps.setString(1, nome);
             ps.setInt(2, idade);
@@ -135,7 +136,7 @@ public class UsuarioDAO {
         try {
             Class.forName("org.postgresql.Driver");
             Connection c = DriverManager.getConnection(URL, USUARIO, SENHA);
-            PreparedStatement ps = c.prepareStatement("DELETE FROM Usuario WHERE id = ?");
+            PreparedStatement ps = c.prepareStatement("DELETE FROM usuario WHERE id = ?");
 
             ps.setInt(1, id);
 
@@ -157,7 +158,7 @@ public class UsuarioDAO {
         try {
             Class.forName("org.postgresql.Driver");
             Connection c = DriverManager.getConnection(URL, USUARIO, SENHA);
-            PreparedStatement ps = c.prepareStatement("UPDATE Usuario SET saldo=? WHERE id = ?");
+            PreparedStatement ps = c.prepareStatement("UPDATE usuario SET saldo=? WHERE id = ?");
 
             ps.setFloat(1, novoSaldo);
             ps.setInt(2, id);
